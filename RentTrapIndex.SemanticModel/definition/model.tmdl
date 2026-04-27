@@ -1,0 +1,19 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["House_Rent_Dataset","Salary_Data"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table House_Rent_Dataset
+ref table DateTableTemplate_08965f28-4e58-4842-bbe1-992069ee91a9
+ref table LocalDateTable_9f7cd6e1-0b6c-4bd5-9a8d-236f666e69a7
+ref table Salary_Data
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "RentTrapIndex"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a524b0c8-a7cd-4885-987e-664ed622bd9a"
+  }
+}

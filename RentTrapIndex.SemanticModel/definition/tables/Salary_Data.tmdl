@@ -1,0 +1,55 @@
+table Salary_Data
+	lineageTag: 613dd1b8-2690-4078-9493-3fb010b40e7c
+
+	column 'Education Level'
+		dataType: string
+		lineageTag: 4428a896-7595-42e5-92b2-ba2f8f363247
+		summarizeBy: none
+		sourceColumn: Education Level
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Job Title'
+		dataType: string
+		lineageTag: f31954dd-5013-43e8-b840-78321320f740
+		summarizeBy: none
+		sourceColumn: Job Title
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Years of Experience'
+		dataType: double
+		lineageTag: 4addb083-beb6-4eb6-a5bd-543659b9c1cf
+		summarizeBy: sum
+		sourceColumn: Years of Experience
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Salary
+		dataType: int64
+		formatString: 0
+		lineageTag: 64cc6080-d29a-44e7-bbb4-dcefe197f523
+		summarizeBy: sum
+		sourceColumn: Salary
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Salary_Data = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\prasanth kumar sahu\Documents\rent-trap-index\data\Salary_Data.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Age", Int64.Type}, {"Gender", type text}, {"Education Level", type text}, {"Job Title", type text}, {"Years of Experience", type number}, {"Salary", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Age", "Gender"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([Salary] <> null)),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each [Salary] >= 30000 and [Salary] <= 200000)
+				in
+				    #"Filtered Rows1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

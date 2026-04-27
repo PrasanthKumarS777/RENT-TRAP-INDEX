@@ -1,0 +1,5 @@
+relationship 1988e928-23ae-46b4-9b8e-76c8ee1d0f77
+	joinOnDateBehavior: datePartOnly
+	fromColumn: House_Rent_Dataset.'Posted On'
+	toColumn: LocalDateTable_9f7cd6e1-0b6c-4bd5-9a8d-236f666e69a7.Date
+

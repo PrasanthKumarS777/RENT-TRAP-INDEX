@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "RentTrapIndex"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f3764e7d-843a-42dd-a89b-fdfe70d578e9"
+  }
+}
