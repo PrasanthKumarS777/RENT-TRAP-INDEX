@@ -1,6 +1,76 @@
 table House_Rent_Dataset
 	lineageTag: 4bb5685d-57fa-402e-b603-ff92b1c0a85d
 
+	measure 'Avg Monthly Rent' = AVERAGE(House_Rent_Dataset[Rent])
+		lineageTag: 5c88ee3f-4e73-4fda-baa6-1de766140846
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Salary INR' = AVERAGE(Salary_Data[Salary]) * 83
+		lineageTag: a8d6005b-d3b5-4e34-9f93-eeadd07e9a10
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rent Trap %' = DIVIDE([Avg Monthly Rent], [Avg Salary INR] / 12) * 100
+		lineageTag: 2d14f071-d395-4116-b134-8f8d57637d73
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Comfort Score' = ([Avg Salary INR] / 12) - [Avg Monthly Rent]
+		lineageTag: 1277ce82-46db-4223-bff8-50180207c846
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Monthly Savings' = ([Avg Salary INR] / 12) - [Avg Monthly Rent] - 5000
+		lineageTag: dfc409dd-eef1-4d75-ade4-9356de9e5ce2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Affordability Rank' = RANKX(ALL(House_Rent_Dataset[City]), [Rent Trap %], , ASC)
+		formatString: 0
+		lineageTag: 28fe4d7a-fdd9-4575-9dfb-e84d7bd2b155
+
+	measure 'Break Even Months' = DIVIDE(100000, [Monthly Savings])
+		lineageTag: 2deb1c8a-494a-42f3-8374-6110a8d30d15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Listings' = COUNTROWS(House_Rent_Dataset)
+		formatString: 0
+		lineageTag: 61580194-c843-4fe7-8609-3f6cbd9e95f9
+
+	measure 'Avg Size SqFt' = AVERAGE(House_Rent_Dataset[Size])
+		lineageTag: d1d3696a-c4e6-4e9e-8a89-cd2d65c5bef7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rent Per SqFt' = DIVIDE([Avg Monthly Rent], [Avg Size SqFt])
+		lineageTag: 3752074b-fe7f-4b7e-90d7-18807f11d65c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Furnished Listings %' =
+			
+			DIVIDE(
+			    COUNTROWS(FILTER(House_Rent_Dataset, House_Rent_Dataset[Furnishing Status] = "Furnished")),
+			    [Total Listings]
+			) * 100
+		lineageTag: 380c1b50-6dec-453c-9f79-4c77841ad218
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Comfort Score %' = DIVIDE([Comfort Score], [Avg Salary INR] / 12) * 100
+		lineageTag: 0c6a5a25-270c-4184-a8f3-aed8e01d36f3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rent Trap Status' =
+			
+			IF([Rent Trap %] >= 50, "🔴 Danger Zone",
+			IF([Rent Trap %] >= 35, "🟡 Caution Zone",
+			"🟢 Safe Zone"))
+		lineageTag: 6d2bda7e-6cdb-4918-b36a-cf28a0152871
+
 	column 'Posted On'
 		dataType: dateTime
 		formatString: Long Date
